@@ -18,9 +18,7 @@
 
 void p_add_f32(float *a, float *b, float *c, int n)
 {
-
     int i;
-    for (i = 0; i < n; i++) {
-        *(c + i) = *(a + i) + *(b + i);
-    }
+    for (i = 0; i < n; i++)
+        *c++ = *a++ + *b++;
 }

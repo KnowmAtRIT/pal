@@ -15,12 +15,10 @@
  *
  */
 #include <math.h>
-#include "pal_math.h"
 void p_sin_f32(float *a, float *c, int n)
 {
 
     int i;
-    for (i = 0; i < n; i++) {
-        *(c + i) = sinf(*(a + i));
-    }
+    for (i = 0; i < n; i++)
+        *c++ = sinf(*a++);
 }

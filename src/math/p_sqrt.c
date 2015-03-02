@@ -18,7 +18,6 @@ void p_sqrt_f32(float *a, float *c, int n)
 {
 
     int i;
-    for (i = 0; i < n; i++) {
-        *(c + i) = sqrtf(*(a + i));
-    }
+    for (i = 0; i < n; i++)
+        *c++ = sqrtf(*a++);
 }
