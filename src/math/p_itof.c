@@ -13,5 +13,8 @@
  * @return      None
  *
  */
-#include <math.h>
-void p_itof(int *a, float *c, int n) {}
+void p_itof(int *a, float *c, int n) {
+    int i;
+    for(i=0; i<n; i++)
+        *c++ = (float) *a++;
+}

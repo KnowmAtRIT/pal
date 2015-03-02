@@ -18,9 +18,7 @@
 #include <math.h>
 void p_asin_f32(float *a, float *c, int n)
 {
-
     int i;
-    for (i = 0; i < n; i++) {
-        *(c + i) = asinf(*(a + i));
-    }
+    for (i = 0; i < n; i++)
+        *c++ = asinf(*a++);
 }

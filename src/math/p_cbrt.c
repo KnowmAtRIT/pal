@@ -1,7 +1,5 @@
 #include <pal.h>
 
-#include <math.h>
-
 /**
  *
  * Calculates the cube root of the input vector 'a'.
@@ -15,11 +13,10 @@
  * @return      None
  *
  */
+#include <math.h>
 void p_cbrt_f32(float *a, float *c, int n)
 {
-
     int i;
-    for (i = 0; i < n; i++) {
-        *(c + i) = cbrtf(*(a + i));
-    }
+    for (i = 0; i < n; i++)
+        *c++ = cbrtf(*a++);
 }

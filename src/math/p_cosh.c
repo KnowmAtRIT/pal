@@ -14,13 +14,10 @@
  * @return      None
  *
  */
-
 #include <math.h>
 void p_cosh_f32(float *a, float *c, int n)
 {
-
     int i;
-    for (i = 0; i < n; i++) {
-        *(c + i) = coshf(*(a + i));
-    }
+    for (i = 0; i < n; i++)
+        *c++ = coshf(*a++);
 }

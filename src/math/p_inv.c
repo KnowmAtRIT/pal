@@ -13,11 +13,9 @@
  * @return      None
  *
  */
-#include <math.h>
 void p_inv_f32(float *a, float *c, int n)
 {
     int i;
-    for (i = 0; i < n; i++) {
-        *(c + i) = 1.0 / *(a + i);
-    }
+    for (i = 0; i < n; i++)
+        *c++ = 1.0 / *a++;
 }

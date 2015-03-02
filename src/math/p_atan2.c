@@ -19,9 +19,7 @@
 #include <math.h>
 void p_atan2_f32(float *a, float *b, float *c, int n)
 {
-
     int i;
-    for (i = 0; i < n; i++) {
-        *(c + i) = atan2f(*(b + i), *(a + i));
-    }
+    for (i = 0; i < n; i++)
+        *c++ = atan2f(*b++, *a++);
 }

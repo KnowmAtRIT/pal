@@ -13,4 +13,8 @@
  * @return      None
  *
  */
-void p_ftoi(float *a, int *c, int n) {}
+void p_ftoi(float *a, int *c, int n) {
+    int i;
+    for(i=0; i<n; i++)
+	*c++ = (int) *a++;
+}

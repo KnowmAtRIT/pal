@@ -1,5 +1,5 @@
 #include <pal.h>
-
+#include <float.h>
 /**
  *
  * Finds the maximum value in vector 'a'. Returns the index of the max
@@ -15,15 +15,16 @@
  * @return       None
  *
  */
-
 void p_max_f32(float *a, float *c, int *index, int n)
 {
     int i;
-    *c = 3.40282346638528860e+38;
+    *c = FLT_MIN;
+    *index = -1;
     for (i = 0; i < n; i++) {
-        if (*(a + i) > *c) {
-            *(index) = i;
-            *c = *(a + i);
+        if (*a > *c) {
+            *index = i;
+            *c = *a;
         }
+	a++;
     }
 }

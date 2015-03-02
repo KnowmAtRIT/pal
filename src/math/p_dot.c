@@ -18,10 +18,8 @@
  */
 void p_dot_f32(float *a, float *b, float *c, int n)
 {
-
     int i;
     *c = 0.0f;
-    for (i = 0; i < n; i++) {
-        *c += *(a + i) * *(b + i);
-    }
+    for (i = 0; i < n; i++)
+        *c += *a++ * *b++;
 }

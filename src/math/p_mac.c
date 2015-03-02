@@ -15,12 +15,10 @@
  * @return      None
  *
  */
-
 void p_mac_f32(float *a, float *b, float *c, int n)
 {
-
     int i;
-    for (i = 0; i < n; i++) {
-        *(c + i) += *(a + i) * *(b + i);
-    }
+    *c = 0.0f;
+    for (i = 0; i < n; i++)
+        *c += *a++ * *b++;
 }

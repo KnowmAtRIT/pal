@@ -15,15 +15,11 @@
  * @return      None
  *
  */
-
 void p_absdiff_f32(float *a, float *b, float *c, int n)
 {
-
     int i;
     for (i = 0; i < n; i++) {
-        *(c + i) = *(a + i) - *(b + i);
-        if (*(c + i) < 0) {
-            *(c + i) = -*(c + i);
-        }
+        *c = *a++ - *b++;
+        *c++ &= 0x7FFFFFFF;
     }
 }

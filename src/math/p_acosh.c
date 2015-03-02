@@ -17,9 +17,7 @@
 #include <math.h>
 void p_acosh_f32(float *a, float *c, int n)
 {
-
     int i;
-    for (i = 0; i < n; i++) {
-        *(c + i) = acoshf(*(a + i));
-    }
+    for (i = 0; i < n; i++)
+        *c++ = acoshf(*a++);
 }
