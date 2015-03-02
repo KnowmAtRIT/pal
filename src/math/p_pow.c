@@ -20,7 +20,6 @@ void p_pow_f32(float *a, float *b, float *c, int n)
 {
 
     int i;
-    for (i = 0; i < n; i++) {
-        *(c + i) = powf(*(a + i), *(b + i));
-    }
+    for (i = 0; i < n; i++)
+        *c++ = powf(*a++, *b++);
 }

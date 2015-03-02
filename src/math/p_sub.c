@@ -19,7 +19,6 @@
 void p_sub_f32(float *a, float *b, float *c, int n)
 {
     int i;
-    for (i = 0; i < n; i++) {
+    for (i = 0; i < n; i++)
         *c++ = *a++ - *b++;
-    }
 }

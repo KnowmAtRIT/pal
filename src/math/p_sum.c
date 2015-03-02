@@ -19,7 +19,6 @@ void p_sum_f32(float *a, float *c, int n)
 
     int i = 0;
     *c = 0.0f;
-    for (i = 0; i < n; i++) {
-        *c += *(a + i);
-    }
+    for (i = 0; i < n; i++)
+        *c += *a++;
 }
