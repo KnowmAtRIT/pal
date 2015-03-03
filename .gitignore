@@ -31,6 +31,9 @@
 # Emacs
 *~
 
+# Vim
+*.swp
+
 # Autotools
 /autom4te.cache
 Makefile.in
@@ -39,3 +42,4 @@ Makefile.in
 /config
 /aclocal.m4
 /config.h
+.deps
