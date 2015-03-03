@@ -10,6 +10,7 @@
  ***********************************************************************
  */
 
+#if 0
 #define P_DEV_EPIPHANY 0x01
 #define P_DEV_GRID 0x02
 #define P_DEV_SMP 0x03
@@ -20,11 +21,29 @@
 #define P_DEV_FIRST P_DEV_EPIPHANY
 #define P_DEV_LAST P_DEV_DEMO
 
+#else
+
+typedef enum{
+  EPIPHANY = 1,
+  GRID = 2,
+  SMP = 3,
+  FPGA = 4,
+  GPU = 5,
+  DEMO = 6
+} P_DEV;
+
+#define P_DEV_FIRST EPIPHANY
+#define P_DEV_LAST DEMO
+
+#endif
 /*
  ***********************************************************************
  * FLAGS
  ***********************************************************************
  */
+
+#if 0
+
 #define P_FLAG_DEFAULT 0
 #define P_FLAG_ASYNC 0x01
 #define P_FLAG_METAL 0x02
@@ -32,26 +51,40 @@
 #define P_FLAG_SOURCE 0x08
 #define P_FLAG_BIN 0x10
 
+#else
+
+typedef enum{
+  DEFAULT = 0,
+  ASYNC = 0x01,
+  METAL = 0x02,
+  LINUX = 0x04,
+  SOURCE = 0x08,
+  BIN = 0x10
+} P_FLAG;
+
+#endif
 /*
  ***********************************************************************
  *DEVICE QUERY PARAMETERS
  ***********************************************************************
  */
 
-#define P_PROP_TYPE 0     // Type of device
-#define P_PROP_NODES 1    // Number of nodes on devices
-#define P_PROP_TOPOLOGY 2 // E.g., 2 == 2D mesh
-#define P_PROP_ROWS 3
-#define P_PROP_COLS 4
-#define P_PROP_PLANES 5
-#define P_PROP_CHIPROWS 6
-#define P_PROP_CHIPCOLS 7
-#define P_PROP_SIMD 8     // 1 if device supports SIMD
-#define P_PROP_MEMSIZE 9  // Memory size per node
-#define P_PROP_MEMBASE 10
-#define P_PROP_VERSION 11
-#define P_PROP_MEMARCH 12
-#define P_PROP_WHOAMI 13
+typedef enum{
+  TYPE = 0,
+  NODES = 1,
+  TOPOLOGY = 2,
+  ROWS = 3,
+  COLS = 4,
+  PLANES = 5,
+  CHIPROWS = 6,
+  CHIPCOLS = 7,
+  SIMD = 8,
+  MEMSIZE = 9,
+  MEMBASE = 10,
+  VERSION = 11,
+  MEMARCH = 12,
+  WHOAMI = 13
+} P_PROP;
 
 /*
  ***********************************************************************

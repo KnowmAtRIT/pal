@@ -52,7 +52,7 @@
  * @return      Value of property being queried
  *
  */
-int p_query(p_dev_t dev, int prop)
+int p_query(p_dev_t dev, P_PROP prop)
 {
     struct dev *pdev;
 

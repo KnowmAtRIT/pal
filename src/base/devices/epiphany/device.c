@@ -73,38 +73,38 @@ static void dev_fini(struct dev *dev)
     dev->dev_data = NULL;
 }
 
-static int dev_query(struct dev *dev, int property)
+static int dev_query(struct dev *dev, P_PROP property)
 {
     if (!dev)
         return -EINVAL;
 
     switch (property) {
-    case P_PROP_TYPE:
+    case TYPE:
         return P_DEV_EPIPHANY;
-    case P_PROP_NODES:
+    case NODES:
         return 16;
-    case P_PROP_TOPOLOGY:
+    case TOPOLOGY:
         return 2;
-    case P_PROP_ROWS:
+    case ROWS:
         return 4;
-    case P_PROP_COLS:
+    case COLS:
         return 4;
-    case P_PROP_PLANES:
+    case PLANES:
         return 4;
-    case P_PROP_CHIPROWS:
+    case CHIPROWS:
         return 4;
-    case P_PROP_CHIPCOLS:
+    case CHIPCOLS:
         return 4;
-    case P_PROP_SIMD:
+    case SIMD:
         return 1;
-    case P_PROP_MEMSIZE:
+    case MEMSIZE:
         return 32768;
-    case P_PROP_MEMBASE:
+    case MEMBASE:
         return 0x80800000;
-    case P_PROP_VERSION:
+    case VERSION:
         return 0xdeadbeef;
-    case P_PROP_MEMARCH:
-    case P_PROP_WHOAMI:
+    case MEMARCH:
+    case WHOAMI:
         return -ENOSYS;
     }
     return -EINVAL;

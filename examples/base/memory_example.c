@@ -23,8 +23,8 @@ int main(int argc, char **argv)
 
     // PAL flow
     dev0 = p_init(type, 0);                  // initialize system
-    myid = p_query(dev0, P_PROP_WHOAMI);            // find my id
-    all = p_query(dev0, P_PROP_NODES);              // find # of device nodes
+    myid = p_query(dev0, WHOAMI);            // find my id
+    all = p_query(dev0, NODES);              // find # of device nodes
     team0 = p_open(dev0, 0, all);            // open a team
     mem0 = p_malloc(team0, N * sizeof(int)); // allocate mem0 memory object
     status = p_write(a, N * sizeof(int), 0, mem0); // write data to mem0

@@ -26,7 +26,7 @@ int main(int argc, char **argv)
 
     // Initialize memory/team
     dev0 = p_init(type, 0);            // initialize system
-    all = p_query(dev0, P_PROP_NODES); // find # of device nodes
+    all = p_query(dev0, NODES); // find # of device nodes
     prog0 = p_load(dev0, elf);         // load executable file
     team0 = p_open(dev0, 0, all);      // open a team
 
