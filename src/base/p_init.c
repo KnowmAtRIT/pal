@@ -27,7 +27,7 @@
 #include "pal_base.h"
 #include "pal_base_private.h"
 
-p_dev_t p_init(int type, int flags)
+p_dev_t p_init(P_DEV type, int flags)
 {
     struct dev *dev = NULL;
 

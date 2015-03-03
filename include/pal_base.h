@@ -10,19 +10,6 @@
  ***********************************************************************
  */
 
-#if 0
-#define P_DEV_EPIPHANY 0x01
-#define P_DEV_GRID 0x02
-#define P_DEV_SMP 0x03
-#define P_DEV_FPGA 0x04
-#define P_DEV_GPU 0x05
-#define P_DEV_DEMO 0x06
-
-#define P_DEV_FIRST P_DEV_EPIPHANY
-#define P_DEV_LAST P_DEV_DEMO
-
-#else
-
 typedef enum{
   EPIPHANY = 1,
   GRID = 2,
@@ -35,7 +22,6 @@ typedef enum{
 #define P_DEV_FIRST EPIPHANY
 #define P_DEV_LAST DEMO
 
-#endif
 /*
  ***********************************************************************
  * FLAGS

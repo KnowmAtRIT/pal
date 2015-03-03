@@ -80,7 +80,7 @@ static int dev_query(struct dev *dev, P_PROP property)
 
     switch (property) {
     case TYPE:
-        return P_DEV_EPIPHANY;
+        return P_DEV.EPIPHANY;
     case NODES:
         return 16;
     case TOPOLOGY:

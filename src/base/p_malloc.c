@@ -25,14 +25,16 @@ p_mem_t p_malloc(p_team_t team, size_t size)
 #if 0
     p_mem_t *mem;
 
-    switch (0) {   // FIX!
-    case P_DEV_EPIPHANY: // shared memory model
+    P_DEV dev = EPIPHANY;
+
+    switch (dev) {   // FIX!
+    case EPIPHANY: // shared memory model
         break;
-    case P_DEV_FPGA: // shared memory model
+    case FPGA: // shared memory model
         break;
-    case P_DEV_GPU: // shared memory model
+    case GPU: // shared memory model
         break;
-    case P_DEV_SMP: // heap (thread model)
+    case SMP: // heap (thread model)
     /*
     mem=malloc(sizeof(p_mem_t));
     mem->mutex  = 23;
@@ -42,7 +44,7 @@ p_mem_t p_malloc(p_team_t team, size_t size)
     mem->memptr = malloc(size);
     break;
     */
-    case P_DEV_GRID: // file+IP (rcp?)
+    case GRID: // file+IP (rcp?)
         break;
     default:
         return (1);
