@@ -52,13 +52,10 @@
  * @return      Value of property being queried
  *
  */
-int p_query(p_dev_t dev, P_PROP prop)
+int p_query(p_dev_t *dev, P_PROP prop)
 {
-    struct dev *pdev;
-
-    if (p_ref_is_err(dev))
+    if (!dev)
         return -EINVAL;
 
-    pdev = (struct dev *) dev;
-    return pdev->dev_ops->query(pdev, prop);
+    return ((p_dev_ops_t*)dev->dev_ops)->query(dev, prop);
 }

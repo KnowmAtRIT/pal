@@ -100,9 +100,26 @@ typedef p_ref_t p_dev_table_t;
 typedef p_ref_t p_team_table_t;
 typedef p_ref_t p_program_table_t;
 typedef p_ref_t p_mem_table_t;
-typedef p_ref_t p_dev_t;
-typedef p_ref_t p_team_t;
 typedef p_ref_t p_prog_t;
+
+typedef struct{
+    void * dev_ops;
+} p_dev_t;
+
+typedef struct{
+    p_dev_t * dev;
+} p_team_t;
+
+typedef struct{
+    P_STATUS (*init)(p_dev_t*,int);                //initialize function
+    void (*fini)(p_dev_t*);                        //finalize function
+    p_team_t* (*open)(p_dev_t*,p_team_t*,int,int); //open function
+    int (*query)(p_dev_t*,P_PROP);                 //query function
+    int (*run)(p_dev_t*,p_team_t*,p_prog_t*,int,int,int,char**,int);
+    int (*wait)(p_dev_t*,p_team_t*);
+} p_dev_ops_t;
+
+
 typedef p_ref_t p_symbol_t;
 typedef p_ref_t p_event_t;
 typedef p_ref_t p_mem_t;
@@ -118,35 +135,35 @@ typedef p_ref_t p_mutex_attr_t;
  */
 
 /*Initialize device run time*/
-P_STATUS p_init(P_DEV_TYPE type, int flags, p_dev_t * dev);
+P_STATUS p_init(P_DEV_TYPE type, int flags, p_dev_t *dev);
 
 /*Finalize device run time*/
-int p_finalize(p_dev_t dev);
+P_STATUS p_finalize(p_dev_t *dev);
 
 /*Open a team of processors*/
-P_STATUS p_open(p_dev_t dev, int start, int count, p_team_t * team);
+P_STATUS p_open(p_dev_t *dev, int start, int count, p_team_t *team);
 
 /*Add team members*/
-p_team_t p_append(p_team_t team, int start, int count);
+p_team_t * p_append(p_team_t *team, int start, int count);
 
 /*Remove team members*/
-p_team_t p_remove(p_team_t team, int start, int count);
+p_team_t * p_remove(p_team_t *team, int start, int count);
 
 /*Close a team of processors*/
-int p_close(p_team_t team);
+int p_close(p_team_t *team);
 
 /* Loads a program from the file system into memory */
-P_STATUS p_load(p_dev_t dev, char *file, char *function, int flags, p_prog_t * program);
+P_STATUS p_load(p_dev_t *dev, char *file, char *function, int flags, p_prog_t *program);
 
 /* Run a program on N processors */
-int p_run(p_prog_t prog, p_team_t team, int start, int count, int nargs,
+int p_run(p_prog_t *prog, p_team_t *team, int start, int count, int nargs,
               char *args[], int flags);
 
 /*Execution barrier*/
 int p_barrier(p_team_t team);
 
 /* Wait for a team */
-int p_wait(p_team_t team);
+int p_wait(p_team_t *team);
 
 /*Create a local memory object*/
 P_STATUS p_malloc(p_team_t team, size_t size, p_mem_t * mem);
@@ -165,7 +182,7 @@ int p_flush(p_mem_t mem);
 
 /*Query a property of a device*/
 /*need it for mem, team, prog as well?*/
-int p_query(p_dev_t dev, P_PROP property);
+int p_query(p_dev_t *dev, P_PROP property);
 
 /*
  ***********************************************************************

@@ -15,12 +15,11 @@
  *
  */
 
-int p_finalize(p_dev_t dev)
+P_STATUS p_finalize(p_dev_t * dev)
 {
-    struct dev *pdev = (struct dev *) dev;
     printf("Running p_finalize(%p)\n", dev);
 
-    pdev->dev_ops->fini(dev);
+    ((p_dev_ops_t*)dev->dev_ops)->fini(dev);
 
-    return 0;
+    return OK;
 }

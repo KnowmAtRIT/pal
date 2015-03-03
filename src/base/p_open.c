@@ -18,18 +18,16 @@
  * @return      Returns a reference. Negative value indicates error.
  *
  */
-P_STATUS p_open(p_dev_t dev, int start, int count, p_team_t * team)
+P_STATUS p_open(p_dev_t *dev, int start, int count, p_team_t *team)
 {
-    struct dev *pdev = (struct dev *) dev;
-
-    if (p_ref_is_err(dev))
+    if (!dev)
         return ERROR_INVALID;
 
     team = malloc(sizeof(p_team_t));
     if (!team)
         return ERROR_NO_MEMORY;
 
-    team = pdev->dev_ops->open(pdev, team, start, count);
+    team = ((p_dev_ops_t*)dev->dev_ops)->open(dev, team, start, count);
     if (p_ref_is_err(team)) {
         free(team);
         return OK;

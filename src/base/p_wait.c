@@ -13,13 +13,12 @@
 #include "pal_base.h"
 #include "pal_base_private.h"
 
-int p_wait(p_team_t team)
+int p_wait(p_team_t *team)
 {
-    struct team *pteam = (struct team *) team;
     printf("Running p_wait\n");
 
-    if (p_ref_is_err(team))
+    if (!team)
         return -EINVAL;
 
-    return pteam->dev->dev_ops->wait(pteam->dev, pteam);
+    return ((p_dev_ops_t*)team->dev->dev_ops)->wait(team->dev, team);
 }

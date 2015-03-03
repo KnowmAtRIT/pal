@@ -19,11 +19,11 @@
  * @return          Returns a reference. Negative value indicates error.
  *
  */
-P_STATUS p_load(p_dev_t dev, char *file, char *function, int flags, p_prog_t * program)
+P_STATUS p_load(p_dev_t *dev, char *file, char *function, int flags, p_prog_t *program)
 {
     size_t len;
 
-    if (p_ref_is_err(dev))
+    if (!dev)
         return ERROR_INVALID;
 
     if((program = malloc(sizeof(struct p_program))) == NULL) {

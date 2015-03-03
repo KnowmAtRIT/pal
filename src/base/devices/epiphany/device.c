@@ -53,7 +53,7 @@ static P_STATUS dev_init( p_dev_t *dev, int flags)
 
 }
 
-static void dev_fini(struct dev *dev)
+static void dev_fini(p_dev_t *dev)
 {
     struct epiphany_dev_data *data =
         (struct epiphany_dev_data *) dev->dev_data;
@@ -70,7 +70,7 @@ static void dev_fini(struct dev *dev)
     dev->dev_data = NULL;
 }
 
-static int dev_query(struct dev *dev, P_PROP property)
+static int dev_query(p_dev_t *dev, P_PROP property)
 {
     if (!dev)
         return -EINVAL;
@@ -206,7 +206,7 @@ static int dev_wait(struct dev *dev, struct team *team)
 
 }
 
-struct dev_ops __pal_dev_epiphany_ops = {
+p_dev_ops_t __pal_dev_epiphany_ops = {
     .init = dev_init,
     .fini = dev_fini,
     .query = dev_query,

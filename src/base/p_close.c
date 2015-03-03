@@ -13,12 +13,12 @@
 #include "pal_base.h"
 #include "pal_base_private.h"
 
-int p_close(p_team_t team)
+int p_close(p_team_t *team)
 {
     printf("Running p_close (%p)\n", team);
 
-    if (p_ref_is_err(team))
-            return -EINVAL;
+    if (!team)
+        return -EINVAL;
 
 
     // NO-OP for now
