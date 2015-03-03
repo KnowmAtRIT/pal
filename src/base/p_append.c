@@ -19,9 +19,9 @@
 #include "pal_base.h"
 #include "pal_base_private.h"
 
-p_team_t * p_append(p_team_t *team, int start, int size)
+P_STATUS p_append(p_team_t *team, int start, int size)
 {
     printf("Running p_append(p_team_t,%d,%d)\n", start, size);
     // need to implement
-    return team;
+    return OK;
 }

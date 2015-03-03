@@ -2,8 +2,6 @@
 
 #include <stddef.h>
 #include <stdio.h>
-#include "pal_base.h"
-#include "pal_base_private.h"
 
 /**
  *
@@ -18,7 +16,7 @@
  * @return      Returns a pointer to the memory buffer
  *              Returns NULL on error
  */
-P_STATUS p_malloc(p_team_t team, size_t size, p_mem_t * mem)
+P_STATUS p_malloc(p_team_t *team, size_t size, p_mem_t * mem)
 {
 
     printf("Running p_malloc(%p,%d)\n", team, (int)size);

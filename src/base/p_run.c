@@ -28,26 +28,23 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-#include "pal_base.h"
-#include "pal_base_private.h"
-
-int p_run(p_prog_t *prog, p_team_t *team, int start, int size, int nargs,
+P_STATUS p_run(p_prog_t *prog, p_team_t *team, int start, int size, int nargs,
         char *args[], int flags)
 {
-    int err;
+    P_STATUS err;
     p_dev_t *dev = team->dev;
 
     if (!prog || !team)
-        return -EINVAL;
+        return ERROR_INVALID;
 
     err = ((p_dev_ops_t*)dev->dev_ops)->run(dev, team, prog, start, size, nargs, args,
             flags);
 
-    if (err)
+    if (err != OK)
         return err;
 
     if (!(flags & 1)) // Bogus non blocking check
         return p_wait((p_team_t*) team); // Inconsistent with flags to this function
 
-    return 0;
+    return OK;
 }

@@ -2,9 +2,6 @@
 
 #include <stddef.h>
 #include <stdio.h>
-#include "pal_base.h"
-#include "pal_base_private.h"
-
 /**
  *
  * Dynamically allocates contiguous memory buffers at any node within
@@ -21,7 +18,7 @@
  * @return      Returns a reference to the memory buffer.
  *              Returns negative value on error.
  */
-P_STATUS p_rmalloc(p_team_t team, int pid, size_t size, p_mem_t * mem)
+P_STATUS p_rmalloc(p_team_t *team, int pid, size_t size, p_mem_t * mem)
 {
     printf("Running p_rmalloc(p_team_t,%d,%d)\n", pid, (int)size);
     return ERROR_NO_SYSTEM;

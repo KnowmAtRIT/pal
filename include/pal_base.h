@@ -115,8 +115,8 @@ typedef struct{
     void (*fini)(p_dev_t*);                        //finalize function
     p_team_t* (*open)(p_dev_t*,p_team_t*,int,int); //open function
     int (*query)(p_dev_t*,P_PROP);                 //query function
-    int (*run)(p_dev_t*,p_team_t*,p_prog_t*,int,int,int,char**,int);
-    int (*wait)(p_dev_t*,p_team_t*);
+    P_STATUS (*run)(p_dev_t*,p_team_t*,p_prog_t*,int,int,int,char**,int);
+    P_STATUS (*wait)(p_dev_t*,p_team_t*);
 } p_dev_ops_t;
 
 
@@ -144,41 +144,41 @@ P_STATUS p_finalize(p_dev_t *dev);
 P_STATUS p_open(p_dev_t *dev, int start, int count, p_team_t *team);
 
 /*Add team members*/
-p_team_t * p_append(p_team_t *team, int start, int count);
+P_STATUS p_append(p_team_t *team, int start, int count);
 
 /*Remove team members*/
-p_team_t * p_remove(p_team_t *team, int start, int count);
+P_STATUS p_remove(p_team_t *team, int start, int count);
 
 /*Close a team of processors*/
-int p_close(p_team_t *team);
+P_STATUS p_close(p_team_t *team);
 
 /* Loads a program from the file system into memory */
 P_STATUS p_load(p_dev_t *dev, char *file, char *function, int flags, p_prog_t *program);
 
 /* Run a program on N processors */
-int p_run(p_prog_t *prog, p_team_t *team, int start, int count, int nargs,
+P_STATUS p_run(p_prog_t *prog, p_team_t *team, int start, int count, int nargs,
               char *args[], int flags);
 
 /*Execution barrier*/
-int p_barrier(p_team_t team);
+P_STATUS p_barrier(p_team_t *team);
 
 /* Wait for a team */
-int p_wait(p_team_t *team);
+P_STATUS p_wait(p_team_t *team);
 
 /*Create a local memory object*/
-P_STATUS p_malloc(p_team_t team, size_t size, p_mem_t * mem);
+P_STATUS p_malloc(p_team_t *team, size_t size, p_mem_t *mem);
 
 /*Create a remote memory object*/
-P_STATUS  p_rmalloc(p_team_t team, int pid, size_t size, p_mem_t * mem);
+P_STATUS p_rmalloc(p_team_t *team, int pid, size_t size, p_mem_t *mem);
 
 /*Free allocated memory */
-int p_free(p_mem_t mem);
+P_STATUS p_free(p_mem_t *mem);
 
 /*Memory fence*/
-int p_fence(p_mem_t mem);
+P_STATUS p_fence(p_mem_t *mem);
 
 /*Flushes the read and write paths to a specific memory object*/
-int p_flush(p_mem_t mem);
+P_STATUS p_flush(p_mem_t *mem);
 
 /*Query a property of a device*/
 /*need it for mem, team, prog as well?*/

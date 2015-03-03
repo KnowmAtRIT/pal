@@ -14,7 +14,7 @@
 #include "pal_base.h"
 #include "pal_base_private.h"
 
-int p_barrier(p_team_t team)
+P_STATUS p_barrier(p_team_t *team)
 {
 
     printf("Running p_barrier(%p)\n", team);
@@ -34,5 +34,5 @@ int p_barrier(p_team_t team)
     // 2.) this structure gets pushed out durung the p_open call
     // 3.)
 
-    return (0);
+    return OK;
 }

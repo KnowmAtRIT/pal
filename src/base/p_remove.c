@@ -19,4 +19,4 @@
 #include "pal_base.h"
 #include "pal_base_private.h"
 
-p_team_t * p_remove(p_team_t *team, int start, int size) { return team; }
+P_STATUS p_remove(p_team_t *team, int start, int size) { return OK; }
