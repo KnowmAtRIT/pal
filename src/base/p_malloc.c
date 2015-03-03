@@ -24,7 +24,7 @@ P_STATUS p_malloc(p_team_t team, size_t size, p_mem_t * mem)
     printf("Running p_malloc(%p,%d)\n", team, (int)size);
 #if 0
 
-    P_DEV dev = EPIPHANY;
+    P_DEV_TYPE dev = EPIPHANY;
 
     switch (dev) {   // FIX!
     case EPIPHANY: // shared memory model

@@ -31,7 +31,7 @@ typedef enum{
   FPGA = 4,
   GPU = 5,
   DEMO = 6
-} P_DEV;
+} P_DEV_TYPE;
 
 #define P_DEV_FIRST EPIPHANY
 #define P_DEV_LAST DEMO
@@ -116,13 +116,13 @@ typedef p_ref_t p_mutex_attr_t;
  */
 
 /*Initialize device run time*/
-p_dev_t p_init(P_DEV type, int flags);
+P_STATUS p_init(P_DEV_TYPE type, int flags, p_dev_t * dev);
 
 /*Finalize device run time*/
 int p_finalize(p_dev_t dev);
 
 /*Open a team of processors*/
-p_team_t p_open(p_dev_t dev, int start, int count);
+P_STATUS p_open(p_dev_t dev, int start, int count, p_team_t * team);
 
 /*Add team members*/
 p_team_t p_append(p_team_t team, int start, int count);
