@@ -28,7 +28,7 @@ P_STATUS p_open(p_dev_t *dev, int start, int count, p_team_t *team)
         return ERROR_NO_MEMORY;
 
     team = ((p_dev_ops_t*)dev->dev_ops)->open(dev, team, start, count);
-    if (p_ref_is_err(team)) {
+    if (!team) {
         free(team);
         return OK;
     }

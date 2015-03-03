@@ -26,7 +26,9 @@ P_STATUS p_load(p_dev_t *dev, char *file, char *function, int flags, p_prog_t *p
     if (!dev)
         return ERROR_INVALID;
 
-    if((program = malloc(sizeof(struct p_program))) == NULL) {
+    program = malloc(sizeof(p_prog_t));
+
+    if(!program) {
         perror("malloc");
         return ERROR_NO_MEMORY;
     }
@@ -34,7 +36,8 @@ P_STATUS p_load(p_dev_t *dev, char *file, char *function, int flags, p_prog_t *p
         return ERROR_NAME_TOO_LONG;
     }
 
-    if((((struct p_program *)program)->name = strndup(file, len)) == NULL) {
+    program->name = strndup(file, len);
+    if(!program->name) {
         perror("strndup");
         return ERROR_NO_MEMORY;
     }

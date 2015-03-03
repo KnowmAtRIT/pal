@@ -100,17 +100,25 @@ typedef p_ref_t p_dev_table_t;
 typedef p_ref_t p_team_table_t;
 typedef p_ref_t p_program_table_t;
 typedef p_ref_t p_mem_table_t;
-typedef p_ref_t p_prog_t;
 
 typedef struct{
-    void * dev_ops;
+    void *dev_ops;
+    void *dev_data;
 } p_dev_t;
 
-typedef struct{
-    p_dev_t * dev;
-} p_team_t;
+typedef struct {
+    p_dev_t *dev; // pointer to the associated device structure
+    char *name;   // executable file name
+} p_prog_t;
 
 typedef struct{
+    p_dev_t *dev; // pointer to the associated device structure
+    int size;     // number of member nodes
+    int *team;    // list of addresses, one per node (int)
+    int *stat;    // list of status "regs". idle/working
+} p_team_t;
+
+typedef struct {
     P_STATUS (*init)(p_dev_t*,int);                //initialize function
     void (*fini)(p_dev_t*);                        //finalize function
     p_team_t* (*open)(p_dev_t*,p_team_t*,int,int); //open function
@@ -122,7 +130,18 @@ typedef struct{
 
 typedef p_ref_t p_symbol_t;
 typedef p_ref_t p_event_t;
-typedef p_ref_t p_mem_t;
+
+// Optimize later, focus on function...
+typedef struct {
+    p_team_t *team; // pointer to the associated team structure
+    int mutex;      // optional mutex to grab before reading/writing 'mem'
+    int takeit;     // indicates that new data is ready (wraparound impl)
+    int gotit;      // indicates that data was read (wraparound impl)
+    int pilot;      // temp var used for flushing read/write path to 'mem'
+    size_t size;    // size of memory buffer
+    void *mem;      // pointer to allocated memory
+} p_mem_t;
+
 typedef p_ref_t p_memptr_t;
 typedef p_ref_t p_atom_t;
 typedef p_ref_t p_mutex_t;
@@ -191,10 +210,10 @@ int p_query(p_dev_t *dev, P_PROP property);
  */
 
 /*Writes to a global memory address from a local address*/
-ssize_t p_write(p_mem_t mem, const void *src, size_t nb, int flags);
+ssize_t p_write(p_mem_t *mem, const void *src, size_t nb, int flags);
 
 /*Reads from a global memory address */
-ssize_t p_read(p_mem_t mem, void *dst, off_t offset, size_t nb, int flags);
+ssize_t p_read(p_mem_t *mem, void *dst, off_t offset, size_t nb, int flags);
 
 /*Broadcasts an array based to a list of destination pointers*/
 ssize_t p_broadcast(p_mem_t *mlist[], int mcount, void *src, size_t nb,
@@ -257,14 +276,6 @@ int p_atomic_swap_u32(p_atom_t atom, uint32_t *input);
 int p_atomic_compswap_u32(p_atom_t atom, uint32_t *input, uint32_t expected);
 
 /** @todo Add description */
-int p_getaddr(p_mem_t mem);
+int p_getaddr(p_mem_t *mem);
 /** @todo Add description */
 int p_getsymbol(p_prog_t prog, char *name, p_symbol_t symbol);
-
-
-/*
- ***********************************************************************
- * Error handling
- ***********************************************************************
- */
-int p_get_err(p_ref_t ref);

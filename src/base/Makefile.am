@@ -45,8 +45,7 @@ libpal_base_la_SOURCES = \
     p_wait.c \
     p_write.c \
     pal_base_private.h \
-    boilerplate.c \
-    p_get_err.c
+    boilerplate.c
 
 libpal_base_la_LIBADD = $(MAYBE_EPIPHANY_LIBS) devices/libdevices.la
 

@@ -12,32 +12,6 @@ struct p_dev
     int property[32];
 };
 
-struct p_team
-{
-    p_dev_t *dev;   // pointer to the associated device structure
-    int size;       // number of member nodes
-    p_team_t *team; // list of addresses, one per node (int)
-    p_team_t *stat; // list of status "regs". idle/working
-};
-
-// Optimize later, focus on function...
-struct p_mem
-{
-    p_team_t *team; // pointer to the associated team structure
-    int mutex;      // optional mutex to grab before reading/writing 'mem'
-    int takeit;     // indicates that new data is ready (wraparound impl)
-    int gotit;      // indicates that data was read (wraparound impl)
-    int pilot;      // temp var used for flushing read/write path to 'mem'
-    size_t size;    // size of memory buffer
-    void *mem;      // pointer to allocated memory
-};
-
-struct p_program
-{
-    p_dev_t *dev; // pointer to the associated device structure
-    char *name;   // executable file name
-};
-
 struct p_symbol
 {
 };
@@ -70,21 +44,6 @@ struct team;
 struct prog;
 struct pal_global;
 
-struct dev_ops{
-    p_dev_t (*init) (struct dev *, int);
-    void (*fini) (struct dev *);
-
-    int (*query) (struct dev *, int);
-    struct team *(*open) (struct dev *, struct team *, int, int);
-    int (*run) (struct dev *, struct team *, struct prog *, int, int, int, char **, int);
-    int (*wait) (struct dev *, struct team *);
-};
-
-struct dev {
-    struct dev_ops *dev_ops;
-    void *dev_data;
-};
-
 struct rank_range {
     int first;
     int n;
@@ -92,14 +51,14 @@ struct rank_range {
 
 struct team {
     struct team *next;
-    struct dev *dev; // Support only one device per team (at leat for now)
+    p_dev_t *dev; // Support only one device per team (at leat for now)
     struct rank_range *ranges;
     size_t ranges_size;
 };
 
 struct prog {
     struct prog *next;
-    struct dev *dev;
+    p_dev_t *dev;
     char *name; // Must be '\0' terminated
     char *path; // Must be '\0' terminated
     char *buf;
@@ -107,7 +66,7 @@ struct prog {
 };
 
 struct pal_global {
-    struct dev devs[P_DEV_LAST+1];
+    p_dev_t devs[P_DEV_LAST+1];
     struct team *teams_head;
     struct team *teams_tail;
     struct prog *progs_head;
@@ -128,32 +87,3 @@ struct pal_global {
 };
 
 extern struct pal_global __pal_global;
-
-
-/*
- ***********************************************************************
- * Error handling
- ***********************************************************************
- */
-
-/* Equivalent to generic Linux Kernel implementation of passing error codes
- * through pointers. This restricts us from returning pointers in the
- * upper-most 4096 byte address range, which should be fine considering it is
- * reserved for stack on most systems. Another option would be to use the
- * lowest bit to indicate error conditions.
- */
-
-#define P_REF_ERR_MAX 4095
-
-static inline bool p_ref_is_err(const p_ref_t ref)
-{
-    return (((uintptr_t) ref) >= ((uintptr_t) -P_REF_ERR_MAX));
-}
-
-static inline int p_ref_get_err(const p_ref_t ref)
-{
-    if (p_ref_is_err(ref))
-        return (int) ((intptr_t) ref);
-    else
-        return 0;
-}
