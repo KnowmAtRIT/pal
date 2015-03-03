@@ -13,9 +13,8 @@
  * @return      None
  *
  */
-#include "p_sort.h"
 void p_median_f32(float *a, float *c, int n) {
     float temp[n];
-    p_sort( a , temp, n);
+    p_sort_f32( a , temp, n);
     *c = temp[n/2 + 1];
 }
