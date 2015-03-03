@@ -6,6 +6,20 @@
 
 /*
  ***********************************************************************
+ * STATUS TYPE
+ ***********************************************************************
+ */
+
+typedef enum{
+  OK,
+  ERROR_IO,
+  ERROR_NO_MEMORY,
+  ERROR_INVALID,
+  ERROR_NO_SYSTEM
+} P_STATUS;
+
+/*
+ ***********************************************************************
  * DEVICE TYPE
  ***********************************************************************
  */
@@ -102,7 +116,7 @@ typedef p_ref_t p_mutex_attr_t;
  */
 
 /*Initialize device run time*/
-p_dev_t p_init(int type, int flags);
+p_dev_t p_init(P_DEV type, int flags);
 
 /*Finalize device run time*/
 int p_finalize(p_dev_t dev);
@@ -149,7 +163,7 @@ int p_flush(p_mem_t mem);
 
 /*Query a property of a device*/
 /*need it for mem, team, prog as well?*/
-int p_query(p_dev_t dev, int property);
+int p_query(p_dev_t dev, P_PROP property);
 
 /*
  ***********************************************************************

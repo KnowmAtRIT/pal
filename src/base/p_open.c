@@ -18,22 +18,21 @@
  * @return      Returns a reference. Negative value indicates error.
  *
  */
-p_team_t p_open(p_dev_t dev, int start, int count)
+P_STATUS p_open(p_dev_t dev, int start, int count, p_team_t * team)
 {
     struct dev *pdev = (struct dev *) dev;
-    struct team *team;
 
     if (p_ref_is_err(dev))
-        return p_ref_err(EINVAL);
+        return ERROR_INVALID;
 
-    team = malloc(sizeof(*team));
+    team = malloc(sizeof(p_team_t));
     if (!team)
-        return p_ref_err(ENOMEM);
+        return ERROR_NO_MEMORY;
 
     team = pdev->dev_ops->open(pdev, team, start, count);
     if (p_ref_is_err(team)) {
         free(team);
-        goto out;
+        return OK;
     }
 
     /* TODO: Rank ranges */
@@ -46,7 +45,6 @@ p_team_t p_open(p_dev_t dev, int start, int count)
         __pal_global.teams_tail = team;
     }
 
-out:
-    return (p_team_t) team;
+    return OK;
 
 }

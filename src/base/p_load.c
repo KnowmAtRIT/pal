@@ -19,30 +19,28 @@
  * @return          Returns a reference. Negative value indicates error.
  *
  */
-p_prog_t p_load(p_dev_t dev, char *file, char *function, int flags)
+P_STATUS p_load(p_dev_t dev, char *file, char *function, int flags, p_prog_t * program)
 {
     size_t len;
-    struct prog *prog;
 
     if (p_ref_is_err(dev))
-        return p_ref_err(EINVAL);
+        return ERROR_INVALID;
 
-    prog = malloc(sizeof(*prog));
-    if (!prog)
-        return p_ref_err(ENOMEM);
+    program = malloc(sizeof(p_prog_t));
+    if (!program)
+        return ERROR_NO_MEMORY;
 
     len = strnlen(file, 4096);
     if (len == 4096)
-        return p_ref_err(ENAMETOOLONG);
+        return ERROR_NAME_TOO_LONG;
 
-    prog->path = strndup(file, len);;
+    program->path = strndup(file, len);;
 
-    if (!prog->path)
-        return p_ref_err(ENOMEM);
+    if (!program->path)
+        return ERROR_NO_MEMORY;
 
-    strncpy(prog->path, file, len+1);
-
-    return prog;
+    strncpy(program->path, file, len+1);
+    return OK;
 
     // TODO: Load into memory etc.
     // TODO: Add to global prog table. We're leaking memory here people.

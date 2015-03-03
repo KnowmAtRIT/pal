@@ -7,7 +7,7 @@
 #include <e-hal.h>
 #include <e-loader.h>
 
-static p_dev_t dev_init(struct dev *dev, int flags)
+static P_STATUS dev_init( p_dev_t *dev, int flags)
 {
     int err;
     struct epiphany_dev_data *data;
@@ -16,44 +16,41 @@ static p_dev_t dev_init(struct dev *dev, int flags)
     /* Be idempotent if already initialized. It might be a better idea to
      * return EBUSY instead */
     if (dev->dev_data)
-        return dev;
+        return OK;
 
 
     err = e_init(NULL);
     if (err)
-        return p_ref_err(EIO);
+        return ERROR_IO;
     err = e_reset_system();
     if (err)
-        return p_ref_err(EIO);
+        return ERROR_IO;
 
     data = malloc(sizeof(*data));
     if (!data)
-        return p_ref_err(ENOMEM);
+        return ERROR_NO_MEMORY;
 
     memset(data, 0, sizeof(*data));
 
     /* Open entire device */
     err = e_open(&data->dev, 0, 0, 4, 4);
     if (err) {
-        err = EIO;
-        goto free_out;
+        free(data);
+        return ERROR_IO;
     }
     err = e_alloc(&data->ctrl, CTRL_MEM_OFFSET, CTRL_MEM_SIZE);
     if (err) {
-        err = ENOMEM;
-        goto free_out;
+	free(data);
+        return ERROR_NO_MEMORY;
     }
-	e_write(&data->ctrl, 0, 0, 0, &ctrl, sizeof(ctrl));
+    e_write(&data->ctrl, 0, 0, 0, &ctrl, sizeof(ctrl));
 
     data->opened = 1;
 
     dev->dev_data = (void *) data;
 
-    return dev;
+    return E_OK;
 
-free_out:
-    free(data);
-    return p_ref_err(err);
 }
 
 static void dev_fini(struct dev *dev)
@@ -110,23 +107,23 @@ static int dev_query(struct dev *dev, P_PROP property)
     return -EINVAL;
 }
 
-static struct team *dev_open(struct dev *dev, struct team *team, int start,
-        int count)
+static P_STATUS dev_open(struct dev *dev, struct team *team, int start,
+        int count )
 {
     struct epiphany_dev_data *data =
         (struct epiphany_dev_data *) dev->dev_data;
 
     /* Only support opening entire chip for now */
     if (start != 0 || count != 16)
-        return p_ref_err(EINVAL);
+        return ERROR_INVALID;
 
     /* Open was done in init */
     if (!data->opened)
-        return p_ref_err(EBADF);
+        return ERROR_BADF;
 
     team->dev = dev;
 
-    return team;
+    return OK;
 }
 
 static int dev_run(struct dev *dev, struct team *team, struct prog *prog,

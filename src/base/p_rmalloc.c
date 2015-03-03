@@ -21,8 +21,8 @@
  * @return      Returns a reference to the memory buffer.
  *              Returns negative value on error.
  */
-p_mem_t p_rmalloc(p_team_t team, int pid, size_t size)
+P_STATUS p_rmalloc(p_team_t team, int pid, size_t size, p_mem_t * mem)
 {
     printf("Running p_rmalloc(p_team_t,%d,%d)\n", pid, (int)size);
-    return p_ref_err(ENOSYS);
+    return ERROR_NO_SYSTEM;
 }

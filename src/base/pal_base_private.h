@@ -70,7 +70,7 @@ struct team;
 struct prog;
 struct pal_global;
 
-struct dev_ops {
+struct dev_ops{
     p_dev_t (*init) (struct dev *, int);
     void (*fini) (struct dev *);
 
@@ -144,12 +144,6 @@ extern struct pal_global __pal_global;
  */
 
 #define P_REF_ERR_MAX 4095
-
-/* Convert an error code to a reference */
-static inline p_ref_t p_ref_err(const int err)
-{
-    return (p_ref_t) ((intptr_t) -err);
-}
 
 static inline bool p_ref_is_err(const p_ref_t ref)
 {

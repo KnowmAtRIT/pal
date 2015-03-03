@@ -18,12 +18,11 @@
  * @return      Returns a pointer to the memory buffer
  *              Returns NULL on error
  */
-p_mem_t p_malloc(p_team_t team, size_t size)
+P_STATUS p_malloc(p_team_t team, size_t size, p_mem_t * mem)
 {
 
     printf("Running p_malloc(%p,%d)\n", team, (int)size);
 #if 0
-    p_mem_t *mem;
 
     P_DEV dev = EPIPHANY;
 
@@ -47,8 +46,8 @@ p_mem_t p_malloc(p_team_t team, size_t size)
     case GRID: // file+IP (rcp?)
         break;
     default:
-        return (1);
+        return ERROR_INVALID;
     }
 #endif
-    return p_ref_err(ENOSYS);
+    return ERROR_NO_SYSTEM;
 }

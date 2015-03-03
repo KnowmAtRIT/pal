@@ -27,18 +27,19 @@
 #include "pal_base.h"
 #include "pal_base_private.h"
 
-p_dev_t p_init(P_DEV type, int flags)
+P_STATUS p_init(P_DEV type, int flags, p_dev_t * device)
 {
     struct dev *dev = NULL;
 
     if (type < P_DEV_FIRST || P_DEV_LAST < type)
-        return p_ref_err(EINVAL);
+        return ERROR_INVALID;
 
     dev = &__pal_global.devs[type];
 
     /* Check if compiled in */
     if (!dev->dev_ops)
-        return p_ref_err(ENOSYS);
+        return ERROR_NO_SYSTEM;
+    device = dev->dev_ops->init(dev,flags);
 
-    return dev->dev_ops->init(dev, flags);
+    return OK;
 }
