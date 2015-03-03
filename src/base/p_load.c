@@ -26,20 +26,18 @@ P_STATUS p_load(p_dev_t dev, char *file, char *function, int flags, p_prog_t * p
     if (p_ref_is_err(dev))
         return ERROR_INVALID;
 
-    program = malloc(sizeof(p_prog_t));
-    if (!program)
+    if((program = malloc(sizeof(struct p_program))) == NULL) {
+        perror("malloc");
         return ERROR_NO_MEMORY;
-
-    len = strnlen(file, 4096);
-    if (len == 4096)
+    }
+    if(strnlen(file, 4096) == 4096) {
         return ERROR_NAME_TOO_LONG;
+    }
 
-    program->path = strndup(file, len);;
-
-    if (!program->path)
+    if((((struct p_program *)program)->name = strndup(file, len)) == NULL) {
+        perror("strndup");
         return ERROR_NO_MEMORY;
-
-    strncpy(program->path, file, len+1);
+    }
     return OK;
 
     // TODO: Load into memory etc.

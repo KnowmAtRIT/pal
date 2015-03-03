@@ -15,7 +15,9 @@ typedef enum{
   ERROR_IO,
   ERROR_NO_MEMORY,
   ERROR_INVALID,
-  ERROR_NO_SYSTEM
+  ERROR_NO_SYSTEM,
+  ERROR_NAME_TOO_LONG,
+  
 } P_STATUS;
 
 /*
@@ -81,7 +83,7 @@ typedef enum{
   SIMD = 8,
   MEMSIZE = 9,
   MEMBASE = 10,
-  VERSION = 11,
+  VER = 11,
   MEMARCH = 12,
   WHOAMI = 13
 } P_PROP;
@@ -134,7 +136,7 @@ p_team_t p_remove(p_team_t team, int start, int count);
 int p_close(p_team_t team);
 
 /* Loads a program from the file system into memory */
-p_prog_t p_load(p_dev_t dev, char *file, char *function, int flags);
+P_STATUS p_load(p_dev_t dev, char *file, char *function, int flags, p_prog_t * program);
 
 /* Run a program on N processors */
 int p_run(p_prog_t prog, p_team_t team, int start, int count, int nargs,
@@ -147,10 +149,10 @@ int p_barrier(p_team_t team);
 int p_wait(p_team_t team);
 
 /*Create a local memory object*/
-p_mem_t p_malloc(p_team_t team, size_t size);
+P_STATUS p_malloc(p_team_t team, size_t size, p_mem_t * mem);
 
 /*Create a remote memory object*/
-p_mem_t p_rmalloc(p_team_t team, int pid, size_t size);
+P_STATUS  p_rmalloc(p_team_t team, int pid, size_t size, p_mem_t * mem);
 
 /*Free allocated memory */
 int p_free(p_mem_t mem);
