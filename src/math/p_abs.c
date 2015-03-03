@@ -16,8 +16,13 @@
 void p_abs_f32(float *a, float *c, int n)
 {
     int i;
-    for (i = 0; i < n; i++)
-	*c++ = *a++ & Ox7FFFFFFF;
+    for (i = 0; i < n; i++) {
+        int casted = *(int*)(a);
+        casted &= 0x7FFFFFFF;
+        *c = *(float*)&casted;
+        c++;
+        a++;
+    }
     //set first bit to 0
     //this sets sign = (+)
     //increment the pointers
