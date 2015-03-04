@@ -11,12 +11,12 @@
  */
 
 typedef enum{
-  OK,
-  ERROR_IO,
-  ERROR_NO_MEMORY,
-  ERROR_INVALID,
-  ERROR_NO_SYSTEM,
-  ERROR_NAME_TOO_LONG,
+  OK = 0,
+  ERROR_IO = -1,
+  ERROR_NO_MEMORY = -2,
+  ERROR_INVALID = -3,
+  ERROR_NO_SYSTEM = -4,
+  ERROR_NAME_TOO_LONG = -5,
   
 } P_STATUS;
 
