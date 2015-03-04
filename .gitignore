@@ -27,6 +27,9 @@
 *.i*86
 *.x86_64
 *.hex
+examples/base/hello_task
+examples/base/simple_example
+examples/base/sine_task
 
 # Emacs
 *~
@@ -43,3 +46,11 @@ Makefile.in
 /aclocal.m4
 /config.h
 .deps
+Makefile
+*Makefile
+config.log
+config.status
+libtool
+stamp-h1
+*.libs
+*.dirstamp
